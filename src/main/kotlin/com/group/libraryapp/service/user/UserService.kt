@@ -1,13 +1,15 @@
-package com.group.libraryapp.domain.service.user
+package com.group.libraryapp.service.user
 
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.UserRepository
+import com.group.libraryapp.domain.user.loanhistorty.UserLoanStatus
 import com.group.libraryapp.dto.user.request.UserCreateRequest
 import com.group.libraryapp.dto.user.request.UserUpdateRequest
+import com.group.libraryapp.dto.user.response.BookHistoryResponse
+import com.group.libraryapp.dto.user.response.UserLoanHistoryResponse
 import com.group.libraryapp.dto.user.response.UserResponse
 import com.group.libraryapp.util.fail
 import com.group.libraryapp.util.findByIdOrThrow
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -43,4 +45,9 @@ class UserService(
     userRepository.delete(user)
   }
   
+  @Transactional(readOnly = true)
+  fun getUserLoanHistories(): List<UserLoanHistoryResponse> {
+    val users = userRepository.findAllWithHistories()
+    return users.map(UserLoanHistoryResponse::of)
+  }
 }
