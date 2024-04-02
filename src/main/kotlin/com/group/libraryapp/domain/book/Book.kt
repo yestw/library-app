@@ -5,11 +5,11 @@ import javax.persistence.*
 @Entity
 class Book(
   val name: String,
-  @Id
   
   @Enumerated(EnumType.STRING)
   val type: BookType,
   
+  @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   val id: Long? = null,
 ) {
